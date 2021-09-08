@@ -4,6 +4,8 @@ include "connection.php";
 session_start();
 
 $name_store=$_SESSION["name_store"];
+$store_id= $_SESSION["store_id"];
+
 
 $sql1="Select i.* from items as i ,stores as s where s.id=i.store_id AND s.name=? "; 
 $stmt1 = $connection->prepare($sql1);
@@ -99,6 +101,8 @@ $result = $stmt1->get_result();
                                 <th>Description</th>
                                 <th>price</th>
                                 <th>quantity</th>
+                                <th>Add quantity</th>
+                                
                                 
                             </tr>
                             </thead>
@@ -130,6 +134,7 @@ $result = $stmt1->get_result();
                                 <td>
                                     <button class="add d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold"  value= "<?php echo $row['id'];?> " > Add quantity</button>
                                 </td>
+                                
                             </tr>
                             
                             <?php      } ?>

@@ -26,10 +26,12 @@ $row = $result->fetch_assoc();
 
 if(!empty($row)){
     $_SESSION["name_store"]= $row["name"];
+    $_SESSION["store_id"]=$row["id"];
     header ("Location: store_home_html.php");
 }
 else{
    
     header ("Location: login_store.html");
 }
+
 

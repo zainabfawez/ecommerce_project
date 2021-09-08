@@ -4,6 +4,7 @@
     session_start();
     
     $full_name= $_SESSION["full_name"];
+    
 
     $sql1="SELECT i.*, s.name as store_name from items as i, stores as s where s.id=i.store_id  "; 
     $stmt1 = $connection->prepare($sql1);

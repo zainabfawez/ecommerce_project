@@ -2,7 +2,8 @@
     include "connection.php";
     session_start();
 
-    $store_name=$_SESSION["name_store"];
+    $store_id=$_SESSION["store_id"];
+    
 
     if(isset($_POST["name"]) && $_POST["name"] != "" ) {
         $name = $_POST["name"];
@@ -28,14 +29,6 @@
         die ("how many items do you have?");
     }
 
-    
-
-    $query1= "SELECT `id` from `stores` where `name`=?";
-    $stmt1 = $connection->prepare($query1);
-    $stmt1->bind_param("s",$store_name);
-    $stmt1->execute();
-    $result1 = $stmt1->get_result();
-    $store_id = $result1->fetch_assoc();
 
     // $name="hi";
     // $description="hi";
@@ -48,8 +41,11 @@
     $stmt = $connection->prepare($query);
     $stmt->bind_param("sssss",$name,$description,$quantity,$price,$store_id);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $result = $stmt->get_result(); 
+
+
     
+   
 
     
 
