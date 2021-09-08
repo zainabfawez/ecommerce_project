@@ -5,7 +5,7 @@ session_start();
 
 $name_store=$_SESSION["name_store"];
 
-$sql1="Select i.* from items i ,stores s where s.id=i.store_id AND s.name=? "; 
+$sql1="Select i.* from items as i ,stores as s where s.id=i.store_id AND s.name=? "; 
 $stmt1 = $connection->prepare($sql1);
 $stmt1->bind_param("s",$name_store);
 $stmt1->execute();
@@ -43,14 +43,6 @@ $result = $stmt1->get_result();
     <link href="css/style.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/aaafc6df51.js" crossorigin="anonymous"></script>
 
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
 </head>
 
 <body class="body-wrapper">
@@ -79,10 +71,7 @@ $result = $stmt1->get_result();
                                     <a class="nav-link login-button" href="add_items.html">Add Items</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link login-button" href="add_items.html">Update Items</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link login-button" href="index.html">logout</a>
+                                    <a class="nav-link login-button" href="logout.php">logout</a>
                                 </li>
                             </ul>
                         </div>
@@ -101,34 +90,52 @@ $result = $stmt1->get_result();
 
     <section class="stores section">
         <div class="container">
-            <div class="row">
-               
-                <div class="col-md-9">
-                            <div class="block">                                
-                                <h5 class="store-letter">Our Items</h5>
-                                <hr>
-                                <!-- Store Lists -->
+                <div class="row">
+                
+                <table class="table table-responsive product-dashboard-table">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>price</th>
+                                <th>quantity</th>
+                                
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                <?php while($items = $result->fetch_assoc()){
+                                <?php 
+                                    while($row=$result->fetch_assoc()){
 
-                        
-                    echo '
-                        
-                                <div class="row">                                   
-                                        <div class="col-md-12 col-sm-12">
-                                            <ul class="store-list" id="store_items">
-                                                <li> quantity: &nbsp&nbsp&nbsp&nbsp'.$items["name"].'</li>
-                                                <li> description:&nbsp&nbsp'.$items["description"].'</li>
-                                                <li> quantity: &nbsp&nbsp&nbsp&nbsp'.$items["quantity"].'</li>
-                                                <li> price($):&nbsp&nbsp&nbsp&nbsp'.$items["price"].'</li>
-                                                
-                                            </ul>
-                                            <hr>
-                                        </div>
-                                </div>';
-                        }
-                    ?>
-                             </div>
+                                ?>   
+                            <tr>
+
+                                <td class="product-thumb">
+                                    <?php echo $row["name"]; ?>
+                                </td>
+
+                                <td class="product-details">
+                                    <?php echo $row["description"]; ?>
+                                </td>
+
+                                <td class="product-details" align_text="center">
+                                    <?php echo $row["price"]; ?>
+                                </td>
+
+                                <td class="product-details" align_text="center" id= "<?php echo $row['id'];?> ">
+                                    <?php echo $row["quantity"]; ?>
+                                </td>
+
+                                
+                                <td>
+                                    <button class="add d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold"  value= "<?php echo $row['id'];?> " > Add quantity</button>
+                                </td>
+                            </tr>
+                            
+                            <?php      } ?>
+                            
+                            </tbody>
+                        </table>
                 </div>
             </div>
         </div>
@@ -159,6 +166,7 @@ $result = $stmt1->get_result();
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places"></script>
     <script src="plugins/google-map/gmap.js"></script>
     <script src="js/script.js"></script>
+    <script src= "script_add.js"></script>
     
 
 </body>

@@ -39,6 +39,6 @@
     $_SESSION["city"]=$city;
 
 
-    header('location: login.html');
+    header('location: store_home_html.php');
 
 ?>

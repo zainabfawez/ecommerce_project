@@ -28,20 +28,28 @@
         die ("how many items do you have?");
     }
 
-    // $query1= "select id from store where name=?";
-    // $stmt1 = $connection->prepare($query1);
-    // $stmt1->bind_param("s",$store_name);
-    // $stmt1->execute();
-    // $result1 = $stmt->get_result();
-    // $store_id = $result1->fetch_assoc();
+    
 
-    $store_id= "2";
+    $query1= "SELECT `id` from `stores` where `name`=?";
+    $stmt1 = $connection->prepare($query1);
+    $stmt1->bind_param("s",$store_name);
+    $stmt1->execute();
+    $result1 = $stmt1->get_result();
+    $store_id = $result1->fetch_assoc();
+
+    // $name="hi";
+    // $description="hi";
+    // $quantity=3;
+    // $price=0;
+
+
 
     $query= "INSERT INTO `items` (`name`,`description`,`quantity`, `price`, `store_id`) VALUES (?, ?, ?, ?, ?)";
     $stmt = $connection->prepare($query);
     $stmt->bind_param("sssss",$name,$description,$quantity,$price,$store_id);
     $stmt->execute();
     $result = $stmt->get_result();
+    
 
     
 

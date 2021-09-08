@@ -1,7 +1,16 @@
 <?php
 
+    include "connection.php";
     session_start();
+    
     $full_name= $_SESSION["full_name"];
+
+    $sql1="SELECT i.*, s.name as store_name from items as i, stores as s where s.id=i.store_id  "; 
+    $stmt1 = $connection->prepare($sql1);
+  
+    $stmt1->execute();
+    $result = $stmt1->get_result();
+
 
 ?>
 <!DOCTYPE html>
@@ -35,13 +44,6 @@
     <script src="https://kit.fontawesome.com/aaafc6df51.js" crossorigin="anonymous"></script>
 
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
 </head>
 
 <body class="body-wrapper">
@@ -63,7 +65,7 @@
                                     <a class="nav-link login-button" href="index.html">Home</a>
                                 </li>
                                 <li class="nav-item active">
-                                    <a class="nav-link login-button" href="index.html">logout</a>
+                                    <a class="nav-link login-button" href="logout.php">logout</a>
                                 </li>
 
 
@@ -89,79 +91,79 @@
                     <div class="category-slider">
 
                         <div class="item" >
-                            <a href="#" id="3">
+                            
                                 <!-- Slider Image -->
                                 <i class="fas fa-tshirt"></i>
                                 <h4>clothes</h4>
-                            </a>
+                           
                         </div>
 
 
                         <div class="item" >
-                            <a href="#" id= "1">
+                            
                                 <!-- Slider Image -->
                                 <i class="fas fa-laptop"></i>
                                 <h4>Electronics</h4>
-                            </a>
+                            
                         </div>
 
 
                         <div class="item" >
-                            <a href="#" id= "2">
+                            
                                 <!-- Slider Image -->
                                 <i class="fas fa-utensils"></i>
                                 <h4>food</h4>
-                            </a>
+                            
                         </div>
                         <div class="item" >
-                            <a href="#" id="3">
+                            
                                 <!-- Slider Image -->
                                 <i class="fas fa-tshirt"></i>
                                 <h4>clothes</h4>
-                            </a>
+                            
                         </div>
 
 
                         <div class="item" >
-                            <a href="#" id= "1">
+                          
                                 <!-- Slider Image -->
                                 <i class="fas fa-laptop"></i>
                                 <h4>Electronics</h4>
-                            </a>
+                           
                         </div>
 
 
                         <div class="item" >
-                            <a href="#" id= "2">
+                            
                                 <!-- Slider Image -->
                                 <i class="fas fa-utensils"></i>
                                 <h4>food</h4>
-                            </a>
+                           
                         </div>
                         <div class="item" >
-                            <a href="#" id="3">
+                            
                                 <!-- Slider Image -->
                                 <i class="fas fa-tshirt"></i>
                                 <h4>clothes</h4>
-                            </a>
+                           
                         </div>
 
 
                         <div class="item" >
-                            <a href="#" id= "1">
+                            
                                 <!-- Slider Image -->
                                 <i class="fas fa-laptop"></i>
                                 <h4>Electronics</h4>
-                            </a>
+                            
                         </div>
 
 
                         <div class="item" >
-                            <a href="#" id= "2">
+                            
                                 <!-- Slider Image -->
                                 <i class="fas fa-utensils"></i>
                                 <h4>food</h4>
-                            </a>
+                            
                         </div>
 
 
@@ -180,7 +182,7 @@
         <div class="container">
             <!-- Row Start -->
             <div class="row">
-                <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+                
                     <div class="sidebar">
                         <!-- User Widget -->
                         <div class="widget user-dashboard-profile">
@@ -190,43 +192,67 @@
                             </div>
                             <!-- User Name -->
                             <h5 class="text-center" id="client_name"><?php echo $full_name; ?></h5>
-
-                            <a href="user-profile.html" class="btn btn-main-sm">Edit Profile</a>
+                            <a href="edit_profile.php" class="btn btn-main-sm">Edit Profile</a>
                         </div>
-
                     </div>
-                </div>
+                
+           
                 <!-- revealing items-->
-                <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
-                    <!-- Recently Favorited -->
-                    <div class="widget dashboard-container my-adslist">
+                                  
+                <div class="widget dashboard-container my-adslist">
                       
-                        <table class="table table-responsive product-dashboard-table">
-                            <thead>
-                                <tr>
-                                    <th class="text-center" id="store_name">displaying store and items according to the category chosen</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <table class="table table-responsive product-dashboard-table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>price</th>
+                            <th>quantity</th>
+                            <th >store</th>
+                            <th >Buy</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                                <tr id= "store_items">
+                            <?php 
+                                while($row=$result->fetch_assoc()){
 
-                                   
-                                       
-                                    <td class="product-details" >
-                                        <h3 class="title"></h3>   
-                                    </td>
-                                    <td class="product-category"></td>
+                            ?>   
+                        <tr>
 
-                                </tr>
+                            <td class="product-thumb">
+                                <?php echo $row["name"]; ?>
+                            </td>
 
+                            <td class="product-details">
+                                <?php echo $row["description"]; ?>
+                            </td>
 
-                            </tbody>
-                        </table>
+                            <td class="product-details" align_text="center">
+                                <?php echo $row["price"]; ?>
+                            </td>
+
+                            <td class="product-details" align_text="center" id= "<?php echo $row['id'];?> " >
+                                <?php echo $row["quantity"]; ?>
+                            </td>
+
+                            <td class="product-details" >
+                                <?php echo $row["store_name"]; ?>
+                            </td>
+
+                            <td>
+                                <button class="buy d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold"  value= "<?php echo $row['id'];?> " > buy</button>
+                            </td>
+                        </tr>
+                        
+                        <?php      } ?>
+                        
+                        </tbody>
+                    </table>
                     </div>
                     <!-- pagination -->
                 </div>
-            </div>
+            
             <!-- Row End -->
         </div>
         <!-- Container End -->
@@ -254,6 +280,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places"></script>
     <script src="plugins/google-map/gmap.js"></script>
     <script src="js/script.js"></script>
+    <script src= "script_buy.js"></script>
     
 </body>
 

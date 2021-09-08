@@ -1,3 +1,19 @@
+<?php
+
+    include "connection.php";
+    session_start();
+
+    $name_store=$_SESSION["name_store"];
+
+    $sql1="Select i.* from items i ,stores s where s.id=i.store_id AND s.name=? "; 
+    $stmt1 = $connection->prepare($sql1);
+    $stmt1->bind_param("s",$name_store);
+    $stmt1->execute();
+    $result = $stmt1->get_result();
+    $row = $result -> fetch_array(MYSQLI_NUM);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,7 +89,18 @@
                         </div>
                         <div class="col-lg-6">
                             <h6 class="font-weight-bold pt-4 pb-1">Item's Name:</h6>
-                            <input required type="text" class="border w-100 p-2 bg-white text-capitalize" placeholder="Name here" name="name">
+                            <div class="category-search-filter">
+                          
+                                <select>
+                                    <?php for($i=0; $i< $row.length; $i++){
+                                        echo ' 
+                                        <option>'.$row[$i].'</option>';
+                                        
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
 
                             <h6 class="font-weight-bold pt-4 pb-1">Description:</h6>
                             <input required name="description" id="description" class="border p-3 w-100" rows="7" placeholder="Write details about your product"></textarea>
@@ -93,7 +120,7 @@
                             <div class="quantity">
                                 <div class="row px-3">
                                     <div class="col-lg-4 mr-lg-4 rounded bg-white my-2 ">
-                                        <input required type="text" class="border-0 py-2 w-100 price" placeholder="Quantity" id="quantity" name="quantity">
+                                        <input required type="text" name="quantity" class="border-0 py-2 w-100 price" placeholder="Quantity" id="quantity" name="quantity">
                                     </div>
                                 </div>
                             </div>

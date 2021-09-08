@@ -34,7 +34,7 @@ if (isset($_POST["type"])){
 //checking if the email is already in the database:
    
 if ($type=="client"){
-    $sql1="Select email from clients where email=? "; 
+    $sql1="SELECT `email` from `clients` where `email`=? "; 
     $stmt1 = $connection->prepare($sql1);
     $stmt1->bind_param("s",$email);
     $stmt1->execute();
@@ -50,7 +50,7 @@ if ($type=="client"){
     }
     
 }else{
-    $sql2="Select email from stores where email=? "; 
+    $sql2="SELECT `email` from `stores` where `email`=? "; 
     $stmt2 = $connection->prepare($sql2);
     $stmt2->bind_param("s",$email);
     $stmt2->execute();

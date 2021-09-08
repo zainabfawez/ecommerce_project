@@ -66,7 +66,7 @@
                 <div class="col-lg-5 col-md-8 align-item-center">
                     <div class="border">
                         <h3 class="bg-gray p-4">Login Now</h3>
-                        <form id="login">
+                        <form id="login_store" action="login_store.php" method="POST">
                             <fieldset class="p-4">
                                 <input type="text" placeholder="email" class="border p-3 w-100 my-2" name="email" id="email">
                                 <input type="password" placeholder="Password" class="border p-3 w-100 my-2" name="password" id="password">
@@ -100,21 +100,8 @@
     <script src="plugins/google-map/gmap.js"></script>
     <script src="js/script.js"></script>
     <script src="js/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#login").on("submit", function(event) {
-                event.preventDefault();
-                var formValues = $(this).serialize();
-                $.post("login_store.php", formValues, function(data) {
-                    // Display the returned data in browser
-                    // $("#result").html(data);
-                });
-                window.location.replace("store_home_html.php")
-            });
 
-        });
-    </script>
-    <div id="result"></div>
+
 
 </body>
 
